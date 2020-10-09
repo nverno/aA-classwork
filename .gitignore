@@ -1,0 +1,5 @@
+__MACOS*
+*.out
+scratch.*
+*.zip
+.byebug_history
