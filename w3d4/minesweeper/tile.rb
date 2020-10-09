@@ -1,8 +1,10 @@
+require 'colorize'
+
 # Tile in minesweeper
 class Tile
-  attr_accessor :neighbors, :mine
+  attr_accessor :neighbors, :mine, :value, :revealed
   alias :mine? :mine
-
+  alias :revealed? :revealed
   def initialize(mine)
     @mine = mine
     @value = nil
@@ -20,11 +22,11 @@ class Tile
 
   def to_s
     if @flagged
-      'F'
+      'F'.colorize(:red)
     elsif @revealed
-      '_'
+      @mine ? 'X'.colorize(:red) : '_'
     else
-      @value ? @value.to_s : '*'
+      @value ? @value.to_s : '*'.colorize(:blue)
     end
   end
 end

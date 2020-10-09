@@ -25,15 +25,25 @@ class Board
     tile.value = value
   end
 
+  def solved?
+    @grid.flatten.all? { |t| t.revealed? || t.mine? }
+  end
+
   def each_neighbor(pos)
     x, y = pos
-    [-1, 1, 0].repeated_combination(2).to_a.select do |i, j|
+    [-1, 1, 0].repeated_permutation(2).to_a.select do |i, j|
       next if i.zero? && j.zero?
 
       x = pos[0] + i
       y = pos[1] + j
       yield [x, y] if x >= 0 && x < @size && y >= 0 && y < @size
     end
+  end
+
+  def neighbors(pos)
+    res = []
+    each_neighbor(pos) { |i,j| res << [i, j] }
+    res
   end
 
   def compute_nearby_mines
@@ -48,6 +58,7 @@ class Board
 
   def count_nearby_mines(pos)
     count = 0
+    count += 1 if self[pos].mine?
     each_neighbor(pos) do |x, y|
       neb = @grid[x][y]
       count += 1 if neb.mine?
@@ -63,12 +74,19 @@ class Board
     nil
   end
 
+  # reveal POS and all of its adjacent neighbors that have no bordering mines
   def reveal(pos)
-    tile = grid[pos[0]][pos[1]]
-    return false if tile.mine?
-
+    tile = self[pos]
     tile.reveal
-    true
+    return if tile.mine?
+
+    each_neighbor(pos) do |x, y| 
+      tile = grid[x][y]
+      unless tile.revealed?
+        tile.value = @nearby_mines[x][y]
+        reveal([x, y]) if tile.value.zero?
+      end
+    end
   end
 
   private
