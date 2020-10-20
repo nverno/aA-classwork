@@ -25,7 +25,7 @@ class String
   def hash
     hash = 0
     self.each_char.with_index do |char, i|
-      hash += char.ord.hash ^ i
+      hash += char.ord.hash << i
     end
     hash
   end
