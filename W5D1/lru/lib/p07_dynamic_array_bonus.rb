@@ -27,6 +27,7 @@ class StaticArray
 end
 
 class DynamicArray
+  include Enumerable
   attr_accessor :count
 
   def initialize(capacity = 8)
@@ -35,9 +36,15 @@ class DynamicArray
   end
 
   def [](i)
+    i = i % count if i < 0
+    push(nil) while i >= capacity
+    @store[i]
   end
 
   def []=(i, val)
+    push(nil) while i >= capacity
+    # @count = [@count, i + 1].max
+    @store[i] = val
   end
 
   def capacity
@@ -45,27 +52,51 @@ class DynamicArray
   end
 
   def include?(val)
+    @store.store.include?(val)
   end
 
   def push(val)
+    resize! if count == capacity
+    @store[count] = val
+    @count += 1
   end
 
   def unshift(val)
+    resize! if count == capacity
+    count.downto(1).each { |i| @store[i] = @store[i - 1] }
+    @store[0] = val
+    @count += 1
   end
 
   def pop
+    return nil if @count.zero?
+
+    @count -= 1
+    res = @store[count]
+    @store[count] = nil
+    res
   end
 
   def shift
+    return nil if @count.zero?
+
+    @count -= 1
+    res = @store[0]
+    (0..count).each { |i| @store[i] = @store[i + 1] }
+    @store[count] = nil
+    res
   end
 
   def first
+    self[0]
   end
 
   def last
+    self[count - 1]
   end
 
   def each
+    (0...count).each { |i| yield self[i] }
   end
 
   def to_s
@@ -74,7 +105,10 @@ class DynamicArray
 
   def ==(other)
     return false unless [Array, DynamicArray].include?(other.class)
-    # ...
+    # return false if other.length != count
+
+    (0...@store.length).each { |i| return false if @store[i] != other[i] }
+    true
   end
 
   alias_method :<<, :push
@@ -83,5 +117,9 @@ class DynamicArray
   private
 
   def resize!
+    sz = capacity * 2
+    res = StaticArray.new(sz)
+    (0...@store.length).each { |i| res[i] = self[i] }
+    @store = res
   end
 end
