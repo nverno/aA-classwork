@@ -49,6 +49,7 @@ class ShortenedUrl < ApplicationRecord
   # Remove shortened URLs that haven't been visited in last (n) minutes
   # and old URLs that have never been visited
   def self.prune(mins)
+    # FIXME: not removing unvisited shortened URLs here
     ShortenedUrl
       .joins(:visitors)
       .left_outer_joins(:visits)
