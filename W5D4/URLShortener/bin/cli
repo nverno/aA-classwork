@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'launchy'
+
+puts "Enter your email:"
+email = gets.chomp
+user = User.find_by(email: email)
+
+puts "[v]isit or [c]reate shortened url?"
+obj = nil
+case (opt = gets.chomp)
+when /v/i
+  puts "Enter shortened URL to visit:"
+  short = gets.chomp
+  obj = ShortenedUrl.find_by(short_url: short)
+  Launchy.open(obj.long_url)
+when /c/i
+  puts "Enter URL to shorten:"
+  url = gets.chomp
+  obj = ShortenedUrl.create_for_long_url(user, url)
+  puts "Created #{url} => #{obj.short_url}"
+  Launchy.open(url)
+else
+  puts "Unknown choice: #{opt}"
+  exit(1)
+end
+
+puts "Recording user #{user.email}'s visit to #{obj.long_url}"
+Visit.record_visit!(user, obj)
