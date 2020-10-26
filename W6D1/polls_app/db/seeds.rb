@@ -41,5 +41,9 @@ ActiveRecord::Base.transaction do
   r1 = Response.create!(user_id: u3.id, answer_choice_id: ac1.id)
   r2 = Response.create!(user_id: u3.id, answer_choice_id: ac4.id)
   r3 = Response.create!(user_id: u3.id, answer_choice_id: ac6.id)
-  r3 = Response.create!(user_id: u3.id, answer_choice_id: ac8.id)
+  r4 = Response.create!(user_id: u3.id, answer_choice_id: ac8.id)
+
+  r5 = Response.create!(user_id: u2.id, answer_choice_id: ac1.id)
+
+  r6 = Response.create!(user_id: u1.id, answer_choice_id: ac1.id)
 end
