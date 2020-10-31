@@ -5,7 +5,7 @@ class ArtworkSharesController < ApplicationController
 
   def create
     artworkshare = ArtworkShare.new(artworkshare_params)
-    if artworkshare.save!
+    if artworkshare.save
       render json: artwork
     else
       render json: artworkshare.errors.full_messages, status: :unprocessable_entity
@@ -28,6 +28,29 @@ class ArtworkSharesController < ApplicationController
   def destroy
     artworkshare = ArtworkShare.find_by(id: params[:id])
     artworkshare.destroy
+  end
+
+  # Show all artwork/artwork_share favorites
+  # XXX: probably should be defined elsewhere?
+  # /favorites
+  def favorites
+    artworks = Artwork.where(favorite: true)
+    shares = ArtworkShare.where(favorite: true)
+    render json: artworks + shares
+  end
+
+  def favorite
+    work = ArtworkShare.find_by(id: params[:id], viewer_id: params[:viewer_id])
+    work.favorite = true
+    work.save
+    render json: work
+  end
+
+  def unfavorite
+    work = ArtworkShare.find_by(id: params[:id], viewer_id: params[:viewer_id])
+    work.favorite = false
+    work.save
+    render json: work
   end
 
   private

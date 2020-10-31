@@ -10,14 +10,24 @@ Rails.application.routes.draw do
   resources :users, only: %i[index show create update destroy]
   resources :users do
     # /users/:user_id/artworks
+    # == get '/usesr/:user_id/artworks' to: 'artworks#index'
     resources :artworks, only: [:index]
   end
-  # get '/usesr/:user_id/artworks' to: 'artworks#index'
-  resources :artwork_shares, only: %i[index show create update destroy]
+
+  resources :artwork_shares, only: %i[index show create update destroy] do
+    member do
+      post :favorite, to: 'artwork_shares#favorite', as: 'favorite'
+      post :unfavorite, to: 'artwork_shares#unfavorite', as: 'unfavorite'
+    end
+  end
+  get '/favorites', to: 'artwork_shares#favorites', as: 'favorites'
+
   resources :artworks, only: %i[index show create update destroy] do
     member do
       post :like, to: 'artworks#like', as: 'like'
       post :unlike, to: 'artworks#unlike', as: 'unlike'
+      post :favorite, to: 'artworks#favorite', as: 'favorite'
+      post :unfavorite, to: 'artworks#unfavorite', as: 'unfavorite'
     end
   end
 
@@ -27,5 +37,13 @@ Rails.application.routes.draw do
       post :unlike, to: 'comments#unlike', as: 'unlike'
     end
   end
+
   resources :likes, only: %i[index]
+
+  resources :collections, only: %i[index show create destroy] do
+    resources :artworks, only: [:index] do
+      post :add, to: 'collections#add', as: 'add'
+      delete :remove, to: 'collections#remove', as: 'remove'
+    end
+  end
 end

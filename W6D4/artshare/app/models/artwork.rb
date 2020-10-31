@@ -6,6 +6,7 @@
 #  title     :string           not null
 #  image_url :string           not null
 #  artist_id :integer          not null
+#  favorite  :boolean          default(FALSE)
 #
 class Artwork < ApplicationRecord
   validates :title, :artist_id, :image_url, presence: true
@@ -14,6 +15,7 @@ class Artwork < ApplicationRecord
               scope: :artist_id,
               message: 'title already used'
             }
+  validates :favorite, inclusion: { in: [true, false] }
 
   belongs_to :artist,
              foreign_key: :artist_id,

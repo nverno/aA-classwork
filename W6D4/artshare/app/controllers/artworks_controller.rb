@@ -61,6 +61,29 @@ class ArtworksController < ApplicationController
     end
   end
 
+  # /artworks/:id/favorite
+  def favorite
+    work = Artwork.find_by(id: params[:id])
+    if work
+      work.favorite = true
+      work.save
+      render json: work
+    else
+      render html: "Artwork #{params[:id]} doesn't exist.."
+    end
+  end
+
+  def unfavorite
+    work = Artwork.find_by(id: params[:id])
+    if work
+      work.favorite = false
+      work.save
+      render json: work
+    else
+      render html: "Artwork #{params[:id]} doesn't exist.."
+    end
+  end
+
   private
 
   def artwork_params

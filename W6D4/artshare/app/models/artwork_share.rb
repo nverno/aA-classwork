@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  artwork_id :integer          not null
 #  viewer_id  :integer          not null
+#  favorite   :boolean          default(FALSE)
 #
 class ArtworkShare < ApplicationRecord
   validates :artwork_id, :viewer_id, presence: true
@@ -13,6 +14,7 @@ class ArtworkShare < ApplicationRecord
               scope: :viewer_id,
               message: 'single viewer per artwork'
             }
+  validates :favorite, inclusion: { in: [true, false] }
 
   belongs_to :viewer,
              foreign_key: :viewer_id,
