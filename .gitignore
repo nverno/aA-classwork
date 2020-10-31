@@ -3,3 +3,5 @@ __MACOS*
 scratch.*
 *.zip
 .byebug_history
+tmp/
+node_modules/
