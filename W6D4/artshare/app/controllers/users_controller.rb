@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
   def index
-    render json: User.all
+    case
+    when params[:query]
+      users = User.where("LOWER(username) LIKE '%#{params[:query].downcase}%'")
+    else
+      users = User.all
+    end
+    render json: users
   end
 
   def create

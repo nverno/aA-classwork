@@ -2,11 +2,15 @@ class ArtworksController < ApplicationController
   # 1. https://localhost/users?id=kdkd
   # 2. /users/:user_id/artworks => {user_id: ... }
   def index
-    # params = { user_id => 1 }
-    # SELECT * FROM artworks WHERE artists.id = user_id
-    user = User.find_by(id: params[:user_id])
-    render json: user.artworks + user.shared_artworks
+    if params[:user_id]
+      # params = { user_id => 1 }
+      # SELECT * FROM artworks WHERE artists.id = user_id
+      user = User.find_by(id: params[:user_id])
+      render json: user.artworks + user.shared_artworks
     # render json: Artwork.find_by(artist_id: params[:user_id])
+    else
+      render json: Artwork.all
+    end
   end
 
   def create
@@ -34,6 +38,27 @@ class ArtworksController < ApplicationController
   def destroy
     artwork = Artwork.find_by(id: params[:id])
     artwork.destroy
+  end
+
+  # /artworks/:id/like, params = {user_id: ...}
+  def like
+    like = Like.new(user_id: params[:user_id], likeable_id: params[:id], likeable_type: 'Artwork')
+    if like.save
+      render json: like
+    else
+      render json: like.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def unlike
+    like = Like.find_by(user_id: params[:user_id], likeable_id: params[:id], likeable_type: 'Artwork')
+    if like.nil?
+      render html: "There is no like ##{params[:id]} dumbass"
+    elsif like.destroy
+      render json: like
+    else
+      render json: like.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   private

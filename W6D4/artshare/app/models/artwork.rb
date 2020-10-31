@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: artworks
+#
+#  id        :bigint           not null, primary key
+#  title     :string           not null
+#  image_url :string           not null
+#  artist_id :integer          not null
+#
 class Artwork < ApplicationRecord
   validates :title, :artist_id, :image_url, presence: true
   validates :title,
@@ -17,4 +26,10 @@ class Artwork < ApplicationRecord
   has_many :shared_viewers,
            through: :artwork_shares,
            source: :viewer
+
+  has_many :comments, dependent: :destroy
+  has_many :likes, as: :likeable
+  has_many :likers,
+           through: :likes,
+           source: :user
 end
