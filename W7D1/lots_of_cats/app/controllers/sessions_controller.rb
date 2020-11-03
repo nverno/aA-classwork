@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :redirect_if_logged_in, only: [:new, :create]
+  before_action :redirect_if_logged_in, only: %i[new create]
 
   def new
     render :new
@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       redirect_to cats_url
     else
       flash.now[:errors] ||= []
-      flash.now[:errors] << "not valid credentials"
+      flash.now[:errors] << 'not valid credentials'
       render :new
     end
   end

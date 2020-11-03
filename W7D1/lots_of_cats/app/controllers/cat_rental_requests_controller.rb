@@ -2,7 +2,7 @@ class CatRentalRequestsController < ApplicationController
   before_action :redirect_unless_owner, only: %i[approve deny]
 
   def redirect_unless_owner
-    unless current_user && current_user.cats.find_by(id: current_cat.id)
+    unless current_user&.cats&.find_by(id: current_cat.id)
       flash[:errors] = ['Only owner can approve/deny request']
       redirect_to cat_url(current_cat)
     end

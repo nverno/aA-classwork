@@ -1,9 +1,9 @@
 class CatsController < ApplicationController
-  before_action :redirect_unless_owner, only: [:edit, :update]
+  before_action :redirect_unless_owner, only: %i[edit update]
 
   # Only cat owner can modify their cat
   def redirect_unless_owner
-    unless current_user && current_user.cats.find_by(id: params[:id])
+    unless current_user&.cats&.find_by(id: params[:id])
       flash[:errors] = ['Must be owner to modify cat']
       redirect_to cats_url
     end
