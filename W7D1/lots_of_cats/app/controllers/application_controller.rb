@@ -22,6 +22,6 @@ class ApplicationController < ActionController::Base
   end
 
   def login(user)
-    session[:session_token] = user.reset_session_token(session[:session_token])
+    session[:session_token] = user.reset_session_token(session[:session_token], request.env)
   end
 end

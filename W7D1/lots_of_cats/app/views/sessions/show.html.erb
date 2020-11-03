@@ -1,0 +1,35 @@
+<%= render 'shared/errors' %>
+
+<% if logged_in? %>
+  <h2>Sessions for <%= current_user.username %></h2>
+
+  <table>
+    <tr>
+      <th>User Agent</th>
+      <th>Host</th>
+      <th>Token</th>
+      <th>Select</th>
+    </tr>
+    <form action="<%= destroy_many_session_url %>" method="POST">
+      <input type="hidden" action="_method" value="delete">
+
+      <% current_user.sessions.each.with_index do |session, idx|  %>
+        <%# debugger %>
+        <tr>
+          <td><%= session.http_user_agent %></td>
+          <td><%= session.http_host %></td>
+          <td><%= session.session_token %></td>
+          <td><input type="checkbox"
+                     name=<%= "sessions_to_destroy[#{idx}]" %>
+                           value="<%= session.session_token %>">
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <input type="submit" value="Logout Sessions">
+      </tr>
+    </form>
+  </ul>
+<% else %>
+  <p>No current user</p>
+<% end %>

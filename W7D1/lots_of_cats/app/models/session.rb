@@ -2,11 +2,13 @@
 #
 # Table name: sessions
 #
-#  id            :bigint           not null, primary key
-#  user_id       :integer          not null
-#  session_token :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id              :bigint           not null, primary key
+#  user_id         :integer          not null
+#  session_token   :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  http_user_agent :string
+#  http_host       :string
 #
 class Session < ApplicationRecord
   validates :user_id, :session_token, presence: true
@@ -19,8 +21,12 @@ class Session < ApplicationRecord
     self.session_token ||= SecureRandom.urlsafe_base64
   end
 
-  def self.create_session_for_user!(user)
-    session = Session.new(user_id: user.id)
+  def self.create_session_for_user!(user, env)
+    session = Session.new(
+      user_id: user.id,
+      http_host: env['HTTP_HOST'],
+      http_user_agent: env['HTTP_USER_AGENT']
+    )
     session.save!
     session
   end

@@ -23,9 +23,9 @@ class User < ApplicationRecord
 
   has_many :sessions
 
-  def reset_session_token(token)
+  def reset_session_token(token, env)
     sessions.where(session_token: token).destroy_all
-    session = Session.create_session_for_user!(self)
+    session = Session.create_session_for_user!(self, env)
     session.session_token
   end
 
