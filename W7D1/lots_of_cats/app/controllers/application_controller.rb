@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
 
   # CRLLL methods
   def current_user
-    @current_user ||= User.find_by(session_token: session[:session_token])
+    @current_user ||=
+      Session.find_by(session_token: session[:session_token])&.user
   end
 
   def redirect_if_logged_in
@@ -11,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logout
-    current_user.reset_session_token if logged_in?
+    Session.find_by(session_token: session[:session_token]).destroy
     session[:session_token] = nil
     @current_user = nil
   end
@@ -21,6 +22,6 @@ class ApplicationController < ActionController::Base
   end
 
   def login(user)
-    session[:session_token] = user.reset_session_token
+    session[:session_token] = user.reset_session_token(session[:session_token])
   end
 end
