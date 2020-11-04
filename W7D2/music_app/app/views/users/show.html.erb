@@ -1,0 +1,18 @@
+<h2>User <%= @user.id %></h2>
+
+<%= render 'shared/errors' %>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Email</th>
+  </tr>
+  <tbody>
+    <tr>
+      <td><%= @user.id %></td>
+      <td><%= @user.email %></td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="<%= users_url %>">Home</a>
