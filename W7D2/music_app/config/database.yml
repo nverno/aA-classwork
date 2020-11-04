@@ -56,6 +56,10 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
+  adapter: postgresql
+  database: music_db_test
+  pool: 5
+  timeout: 5000
   <<: *default
   database: music_app_test
 
