@@ -1,0 +1,11 @@
+<%= render 'shared/errors' %>
+
+<h2>Tracks</h2>
+
+<ul>
+  <% Track.all.each do |track| %>
+    <li>
+      <%= link_to track.title, track_url(track) %>
+    </li>
+  <% end %>
+</ul>

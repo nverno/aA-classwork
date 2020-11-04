@@ -1,0 +1,20 @@
+<%= render 'shared/errors' %>
+
+<h2>Albums</h2>
+
+<table>
+  <tr>
+    <th>Artist</th>
+    <th>Title</th>
+    <th>Year</th>
+    <th>Live</th>
+  </tr>
+  <% @albums.each do |album| %>
+    <tr>
+      <td><%= link_to album.band.name, band_url(album.band) %></td>
+      <td><%= link_to album.title, album_url(album) %></td>
+      <td><%= album.year %></td>
+      <td><%= album.live %></td>
+    </tr>
+  <% end %>
+</table>

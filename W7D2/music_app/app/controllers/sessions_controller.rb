@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    render :new
   end
 
   def create
@@ -8,13 +9,13 @@ class SessionsController < ApplicationController
       params[:user][:password]
     )
 
-    if @user&.save
+    if @user
       login!(@user)
       flash[:errors] = ["Successfully logged in as #{@user.email}"]
       redirect_to user_url(@user)
     else
-      flash[:errors] = @user.errors.full_messages
-      redirect_to new_user_url
+      flash[:errors] = ["Invalid user credentials"]
+      redirect_to new_session_url
     end
   end
 
