@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CapybaraApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <nav>
+      <h1><%= link_to 'Goal App', users_url %></h1>
+
+      <% if logged_in? %>
+        <h3>Welcome, <%= current_user.username %></h3>
+        <form action="<%= session_url %>" method="POST">
+          <input type="hidden"
+                 name="authenticity_token"
+                 value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="submit" value="logout">
+        </form>
+      <% else %>
+        <%= link_to 'Sign up', new_user_url %> | 
+        <%= link_to 'Login', new_session_url %>
+      <% end %>
+    </nav>    
+    <%= yield %>
+  </body>
+</html>
