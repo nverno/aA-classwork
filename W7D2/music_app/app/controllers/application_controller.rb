@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_logged_in
+    flash[:errors] = ["Must login first"]
     redirect_to new_session_url unless logged_in?
   end
 

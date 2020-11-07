@@ -1,4 +1,6 @@
 class BandsController < ApplicationController
+  before_action :require_logged_in, except: %i[index show]
+
   def index
     @bands = Band.all
     render :index

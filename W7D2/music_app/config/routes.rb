@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: 'users#index'
+  root to: 'bands#index'
   resources :users
   resource :session, only: %i[new create destroy]
 
@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   end
 
   resources :tracks, only: %i[create edit show index update destroy]
+  resources :notes, only: %i[create destroy]
 end

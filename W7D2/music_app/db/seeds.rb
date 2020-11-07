@@ -23,7 +23,10 @@ a4 = Album.create!(band_id: b3.id, title: 'King of Rock', year: '1985')
 a5 = Album.create!(band_id: b3.id, title: 'Raising Hell', year: '1986')
 
 Track.destroy_all
-Track.create!(album_id: a1.id, title: 'Highway to Hell', ord: 1, lyrics: 'ababbab')
-Track.create!(album_id: a1.id, title: 'Girls Got Rythym', ord: 2)
-Track.create!(album_id: a1.id, title: 'Walk All Over You', ord: 3)
-Track.create!(album_id: a1.id, title: 'Touch Too Much', ord: 4)
+t1 = Track.create!(album_id: a1.id, title: 'Highway to Hell', ord: 1, lyrics: 'ababbab')
+t2 = Track.create!(album_id: a1.id, title: 'Girls Got Rythym', ord: 2)
+t3 = Track.create!(album_id: a1.id, title: 'Walk All Over You', ord: 3)
+t4 = Track.create!(album_id: a1.id, title: 'Touch Too Much', ord: 4)
+
+n1 = Note.create!(user_id: u2.id, track_id: t1.id, note: 'asdfasdf')
+n1 = Note.create!(user_id: u1.id, track_id: t1.id, note: 'sakdfksdf adkfk akas dfsdk')

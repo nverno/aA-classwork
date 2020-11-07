@@ -17,4 +17,13 @@
   </tbody>
 </table>
 
+<h3>Tracks</h3>
+<ul>
+  <% @album.tracks.order('ord').each do |track| %>
+    <li style="list-style: none">
+      <%= track.ord %>. <%= link_to "#{track.title}", track_url(track) %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit Album', edit_album_url(@album) %>

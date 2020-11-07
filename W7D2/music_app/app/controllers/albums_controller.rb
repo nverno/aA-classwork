@@ -1,4 +1,6 @@
 class AlbumsController < ApplicationController
+  before_action :require_logged_in, except: %i[index show]
+
   def index
     @albums = Album.all
     render :index
@@ -12,12 +14,11 @@ class AlbumsController < ApplicationController
 
   def create
     @album = Album.new(album_params)
-    @album.band_id = params[:band_id]
     if @album.save
       redirect_to albums_url
     else
-      flash[:errors] = @album.errors.full_messages
-      redirect_to new_band_album_url(params[:band_id])
+      flash.now[:errors] = @album.errors.full_messages
+      render :new
     end
   end
 

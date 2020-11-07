@@ -12,7 +12,7 @@
   <body>
 
     <nav class="main-nav">
-      <h1><a href="<%= users_url %>">Music</a></h1>
+      <h1><a href="<%= bands_url %>">Music</a></h1>
       <% if logged_in? %>
         <h2>Welcome, <%= current_user.email %>!</h2>
         <form action="<%= session_url %>" method="POST">

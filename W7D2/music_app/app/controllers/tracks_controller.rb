@@ -1,4 +1,6 @@
 class TracksController < ApplicationController
+  before_action :require_logged_in, except: %i[index show]
+
   def index
     @tracks = Track.all
     render :index

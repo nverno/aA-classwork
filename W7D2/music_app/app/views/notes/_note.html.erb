@@ -1,0 +1,21 @@
+<!-- takes a 'note' local -->
+
+<p>
+  <strong><%= note.user.email %></strong> says
+</p>
+
+<ul>
+  <p>
+    <%= note.note %>
+  </p>
+</ul>
+
+<% if logged_in? && note.user_id == current_user.id %>
+  <form action="<%= note_url(note) %>" method="POST">
+    <input type="hidden"
+           name="authenticity_token"
+           value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete">
+  </form>
+<% end %>
