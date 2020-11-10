@@ -1,0 +1,11 @@
+<li>
+  <%= link_to comment.content, comment_url(comment) %> - <%= comment.author.username %>
+  <% @all_comments.each do |cc| %>
+    <ul>
+      <% if cc.parent_comment_id == comment.id %>
+        <!-- only recurse for direct child comments -->
+        <%= render 'comments/comment', comment: cc %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

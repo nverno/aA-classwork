@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RedditClone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= flash[:errors] %>
+    <% if logged_in? %>
+      <%= button_to "logout", session_url, method: :delete %>
+    <% else %>
+      <%= button_to "login", new_session_url, method: :get %>
+    <% end %>
+    
+    <%= yield %>
+  </body>
+</html>
