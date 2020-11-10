@@ -24,4 +24,18 @@ class Comment < ApplicationRecord
   has_many :child_comments,
            foreign_key: :parent_comment_id,
            class_name: 'Comment'
+
+  has_many :votes, as: :votable
+
+  def vote_count
+    votes.sum(:value)
+  end
+
+  def upvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Comment', value: 1)
+  end
+
+  def downvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Comment', value: -1)
+  end
 end

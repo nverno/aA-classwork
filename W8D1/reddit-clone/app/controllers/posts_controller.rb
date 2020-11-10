@@ -41,6 +41,21 @@ class PostsController < ApplicationController
     params[:post][:sub_ids]&.each do |_k, id|
       PostSub.create(sub_id: id, post_id: params[:id])
     end
-    params.require(:post).permit(:title, :url, :content, :author_id, :sub_id, :sub_ids)
+    params.require(:post).permit(:title, :url, :content, :author_id, :sub_id, sub_ids: [])
+  end
+
+  def vote(dir)
+    @post = Post.find(params[:id])
+    vote = @post.votes.find_or_initialize_by(user: current_user)
+    flash[:errors] = vote.errors.full_messages unless vote.update(value: dir)
+    redirect_to sub_url(@post.sub_id)
+  end
+
+  def upvote
+    vote(1)
+  end
+
+  def downvote
+    vote(-1)
   end
 end

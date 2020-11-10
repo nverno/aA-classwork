@@ -1,5 +1,6 @@
 class SubsController < ApplicationController
-  before_action :require_moderator, only: [:edit, :update, :destroy]
+  before_action :require_logged_in, only: %i[upvote downvote]
+  before_action :require_moderator, only: %i[edit update destroy]
   helper_method :moderator?
 
   def require_moderator
@@ -9,6 +10,20 @@ class SubsController < ApplicationController
 
   def moderator?
     current_user&.id == @sub.moderator_id
+  end
+
+  def upvote
+    @sub = Sub.find(params[:id])
+    vote = @sub.votes.find_or_initialize_by(user: current_user)
+    vote.update(value: 1)
+    redirect_to subs_url
+  end
+
+  def downvote
+    @sub = Sub.find(params[:id])
+    vote = @sub.votes.find_or_initialize_by(user: current_user)
+    vote.update(value: -1)
+    redirect_to subs_url
   end
 
   def index
@@ -21,7 +36,7 @@ class SubsController < ApplicationController
     if @sub
       render :show
     else
-      flash.now[:errors] = ["This sub does not exist"]
+      flash.now[:errors] = ['This sub does not exist']
       redirect_to subs_url
     end
   end
@@ -49,7 +64,7 @@ class SubsController < ApplicationController
   end
 
   def edit
-    @sub=Sub.find_by(id: params[:id])
+    @sub = Sub.find_by(id: params[:id])
     render :edit
   end
 
@@ -58,7 +73,7 @@ class SubsController < ApplicationController
     if @sub.update(sub_params)
       redirect_to sub_url(@sub)
     else
-      flash.now[:errors]=@sub.errors.full_messages
+      flash.now[:errors] = @sub.errors.full_messages
       render :edit
     end
   end

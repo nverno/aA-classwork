@@ -3,11 +3,25 @@ Rails.application.routes.draw do
   root to: 'subs#index'
   resources :users
   resource :session, only: %i[create destroy new]
-  resources :subs
+  resources :subs do
+    member do
+      post 'upvote'
+      post 'downvote'
+    end
+  end
 
   resources :posts do
     resources :comments, only: :new
+    member do
+      post 'upvote'
+      post 'downvote'
+    end
   end
 
-  resources :comments, only: %i[create show]
+  resources :comments, only: %i[create show] do
+    member do
+      post 'upvote'
+      post 'downvote'
+    end
+  end
 end

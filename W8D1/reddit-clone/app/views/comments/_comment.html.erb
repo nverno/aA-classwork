@@ -1,5 +1,12 @@
 <li>
+  (<%= comment.vote_count %>)
   <%= link_to comment.content, comment_url(comment) %> - <%= comment.author.username %>
+  <div style="display: flex">
+    <%= button_to 'Upvote', upvote_comment_url(comment), method: :post,
+     disabled: comment.upvoted_by?(current_user) %>
+    <%= button_to 'Downvote', downvote_comment_url(comment), method: :post,
+     disabled: comment.downvoted_by?(current_user) %>
+  </div>
   <% @all_comments.each do |cc| %>
     <ul>
       <% if cc.parent_comment_id == comment.id %>

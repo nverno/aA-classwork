@@ -25,6 +25,8 @@ class Post < ApplicationRecord
            source: :sub
 
   has_many :comments
+
+  has_many :votes, as: :votable
   # def sub_ids=(sub_ids)
   #   debugger
   #   sub_ids.each do |_k, s_id|
@@ -42,5 +44,17 @@ class Post < ApplicationRecord
     comments.includes(:author).each_with_object(h) do |comment, hash|
       hash[comment.parent_comment_id] << comment
     end
+  end
+
+  def vote_count
+    votes.sum(:value)
+  end
+
+  def upvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Post', value: 1)
+  end
+
+  def downvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Post', value: -1)
   end
 end

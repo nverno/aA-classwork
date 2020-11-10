@@ -17,6 +17,21 @@ class CommentsController < ApplicationController
     end
   end
 
+  def vote(dir)
+    @comment = Comment.find(params[:id])
+    vote = @comment.votes.find_or_initialize_by(user: current_user)
+    flash[:errors] = vote.errors.full_messages unless vote.update(value: dir)
+    redirect_to post_url(@comment.post_id)
+  end
+
+  def upvote
+    vote(1)
+  end
+
+  def downvote
+    vote(-1)
+  end
+
   private
 
   def comment_params

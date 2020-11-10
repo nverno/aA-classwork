@@ -17,7 +17,7 @@
 
 <ul>
   <!-- Remove N+1 query on comments -->
-  <% @all_comments = @post.comments.includes(:author) %>
+  <% @all_comments = @post.comments.includes(:author).sort_by(&:vote_count).reverse %>
   <% @all_comments.each do |comment| %>
     <% if comment.parent_comment_id.nil? %>
       <!-- Only recurse on top-level comments -->

@@ -19,4 +19,18 @@ class Sub < ApplicationRecord
   has_many :posts,
            through: :post_subs,
            source: :post
+
+  has_many :votes, as: :votable
+
+  def vote_count
+    votes.sum(:value)
+  end
+
+  def upvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Sub', value: 1)
+  end
+
+  def downvoted_by?(user)
+    Vote.exists?(user_id: user.id, votable_id: id, votable_type: 'Sub', value: -1)
+  end
 end
