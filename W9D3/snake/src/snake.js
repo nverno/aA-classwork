@@ -1,10 +1,17 @@
 import Coord from './coord.js';
 
+const CONSTANTS = {
+  START_X: 20,
+  START_Y: 20,
+  START_DIR: 'E',
+  DIRS: ['N', 'E', 'S', 'W'],
+  GROW_LENGTH: 3,
+};
+
 export default class Snake {
   constructor() {
-    this.segments = [new Coord(20, 20)];
-    this.dir = 'E';
-    this.DIRS = ['N', 'E', 'S', 'W'];
+    this.segments = [new Coord(CONSTANTS.START_X, CONSTANTS.START_Y)];
+    this.dir = CONSTANTS.START_DIR;
     this.growTimes = 0;
   }
 
@@ -24,7 +31,7 @@ export default class Snake {
     }
 
     if ($cell.attr('class') === 'apple') {
-      this.growTimes += 3;
+      this.growTimes += CONSTANTS.GROW_LENGTH;
       console.log("Att an apple");
       result = 1;
     }

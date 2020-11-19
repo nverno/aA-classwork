@@ -1,3 +1,7 @@
+const CONSTANTS = {
+  TURN_INTERVAL: 100,
+};
+
 export default class View {
   constructor(board, $el) {
     this.$el = $el;
@@ -16,7 +20,8 @@ export default class View {
 
   start() {
     this.running = true;
-    window.gameInterval = window.setInterval(this.step.bind(this), 100);
+    window.gameInterval = window.setInterval(
+      this.step.bind(this), CONSTANTS.TURN_INTERVAL);
   }
 
   pause() {
