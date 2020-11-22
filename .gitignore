@@ -5,3 +5,7 @@ scratch.*
 .byebug_history
 tmp/
 node_modules/
+.log/
+
+*.map
+bundle.js
