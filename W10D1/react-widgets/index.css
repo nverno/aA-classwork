@@ -1,0 +1,32 @@
+.clock {
+  font-family: 'Open Sans', sans-serif;
+  background-color: yellow;
+}
+
+.tabs {
+  background-color: orange;
+}
+
+.tabs ul {
+  display: flex;
+  justify-content: space-around;
+  background-color: orange;
+}
+
+.tabs li {
+  list-style: none;
+  font-weight: bolder;
+  font-size: 18px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.tabs span {
+  cursor: pointer;
+}
+
+.tabs article {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+}
