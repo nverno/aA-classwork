@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default class Autocomplete extends Component {
   constructor(props) {
@@ -18,8 +19,22 @@ export default class Autocomplete extends Component {
     this.setState({ inputVal: e.target.value });
   }
 
+  handleClick(e) {
+    this.setState({ inputVal: e.currentTarget.innerText });
+  }
+
   render() {
-    const items = this.filteredItems();
+    const items = this.filteredItems().map((item, idx) => (
+      <CSSTransition
+        key={idx}
+        classNames="auto"
+        timeout={{ enter: 500, exit: 500 }}
+      >
+        <li key={idx} onClick={this.handleClick.bind(this)}>
+          {item}
+        </li>
+      </CSSTransition>
+    ));
 
     return (
       <>
@@ -33,9 +48,7 @@ export default class Autocomplete extends Component {
             onChange={this.handleSearch.bind(this)}
           />
           <ul>
-            {items.map((item) => (
-              <li key={item.objectID}>{item}</li>
-            ))}
+            <TransitionGroup>{items}</TransitionGroup>
           </ul>
         </div>
       </>

@@ -21,11 +21,8 @@ export default class Tabs extends React.Component {
         <div className="tabs">
           <ul>
             {this.props.tabs.map((tab, idx) => (
-              <li>
-                <span
-                  key={tab.objectID}
-                  onClick={this.selectTab.bind(this, idx)}
-                >
+              <li key={idx}>
+                <span onClick={this.selectTab.bind(this, idx)}>
                   {tab.title}
                 </span>
               </li>
