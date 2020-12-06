@@ -1,0 +1,20 @@
+<% action = params[:controller] == 'sessions' ? session_url : users_url %>
+<% type = params[:controller] == 'sessions' ? 'Login' : 'Sign Up' %>
+<h3><%= type %></h3>
+
+<form action="<%= action %>" method="POST">
+  <input type="hidden"
+         name="authenticity_token"
+         value="<%= form_authenticity_token %>">
+
+  <label>Username
+    <input type="text" name="user[username]" value="<%= user&.username %>">
+  </label>
+  <br />
+  <label>Password
+    <input type="password" name="user[password]">
+  </label>
+  <br />
+
+  <button type="submit"><%= type %></button>
+</form>
