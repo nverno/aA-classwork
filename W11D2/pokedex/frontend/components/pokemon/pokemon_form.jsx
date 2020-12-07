@@ -19,18 +19,18 @@ const pokeTypes = [
   'steel',
 ];
 
-const emptyForm = {
-  name: '',
-  attack: '',
-  defense: '',
-  image_url: '',
-  poke_type: 'fire',
-};
+// const emptyForm = {
+//   name: '',
+//   attack: '',
+//   defense: '',
+//   image_url: '',
+//   poke_type: 'fire',
+// };
 
 export default class PokemonForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...emptyForm };
+    this.state = { ...this.props.pokemon };
   }
 
   handleChange(property) {
@@ -39,7 +39,7 @@ export default class PokemonForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.createPokemon(this.state).then((poke) => {
+    this.props.action(this.state).then((poke) => {
       let id = Object.keys(poke.pokemon)[0];
       this.props.history.push(`pokemon/${id}`);
     });
@@ -56,9 +56,11 @@ export default class PokemonForm extends Component {
 
   render() {
     const { name, attack, defense, poke_type, image_url } = this.state;
+    const { formType } = this.props;
     return (
       <section className="pokemon-detail">
         <ul>{this.errors()}</ul>
+        <h3>{formType}</h3>
         <form className="pokemon-form" onSubmit={this.handleSubmit.bind(this)}>
           <label>
             Name

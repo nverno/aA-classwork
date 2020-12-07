@@ -1,6 +1,6 @@
 import React from 'react';
 import Item from '../items/item';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import ItemDetailContainer from '../items/item_detail_container';
 import LoadingIcon from './loading_icon';
 
@@ -45,7 +45,7 @@ class PokemonDetail extends React.Component {
           <p>Defense: {defense}</p>
           <p>Moves: {moves.join(', ')}</p>
         </ul>
-        <section className="togs">
+        <section className="toys">
           <h3>Items</h3>
           <ul className="toy-list">
             {items.map((item, idx) => (
@@ -54,6 +54,7 @@ class PokemonDetail extends React.Component {
           </ul>
         </section>
 
+        <Link to={`/pokemon/${pokemon.id}/edit`}>Edit</Link>
         <Route
           path="/pokemon/:pokemonId/item/:itemId"
           component={ItemDetailContainer}

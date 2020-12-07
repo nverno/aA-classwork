@@ -53,3 +53,15 @@ export const createPokemon = (pokemon) => (dispatch) =>
       console.log(err);
       dispatch(receivePokemonErrors(err.responseJSON));
     });
+
+export const updatePokemon = (pokemon) => (dispatch) => {
+  APIUtil.updatePokemon(pokemon)
+    .then((poke) => {
+      dispatch(receivePokemon(poke));
+      return poke;
+    })
+    .fail((err) => {
+      console.log(err);
+      dispatch(receivePokemonErrors(err.responseJSON));
+    });
+};
